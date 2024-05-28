@@ -31,7 +31,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2021-02-01' = {
 
 resource blobServices 'Microsoft.Storage/storageAccounts/blobServices@2019-06-01' = {
   name: 'default'
-  parent: sa
+  parent: storageAccount
 }
 
 resource container 'Microsoft.Storage/storageAccounts/blobServices/containers@2019-06-01' = {

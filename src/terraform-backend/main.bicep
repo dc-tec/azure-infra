@@ -13,7 +13,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-01-01' = {
 
 module storageAccount './storage.bicep' = {
   name: 'TerraformStorageAccount'
-  scope: rg
+  scope: resourceGroup
   params: {
     location: location
     storageAccountName: storageAccountName
