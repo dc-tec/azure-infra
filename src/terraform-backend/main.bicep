@@ -1,6 +1,7 @@
 param location string
 param resourceGroupName string
 param storageAccountName string
+param applicationName string
 param tagValues object
 
 targetScope = 'subscription'
@@ -21,3 +22,10 @@ module storageAccount './storage.bicep' = {
   }
 }
 
+module servicePrincipal './service-prinicpal.bicep' = {
+  name: 'TerraformServicePrincipal'
+  scope: resourceGroup
+  params: {
+    applicationName: applicationName
+  }
+}
