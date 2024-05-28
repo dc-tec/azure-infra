@@ -2,7 +2,7 @@ param storageAccountName string
 param location string
 param tagValues object
 
-resource sa 'Microsoft.Storage/storageAccounts@2021-02-01' = {
+resource storageAccount 'Microsoft.Storage/storageAccounts@2021-02-01' = {
   name: storageAccountName
   location: location
   kind: 'StorageV2'
