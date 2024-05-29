@@ -4,3 +4,10 @@ applications:
     homepage_url: https://argocd.decort.tech
     web_redirect_uris: [https://argocd.decort.tech/auth/callback]
     public_client_redirect_uris: [http://localhost:8085/auth/callback]
+    group_membership_claims: ApplicationGroup
+    access_group: grp-argocd-admin
+    app_roles:
+      - name: argocd-access
+        description: Allow ArgoCD Web Access
+        allowed_member_types: [User]
+        reference: Users.All
