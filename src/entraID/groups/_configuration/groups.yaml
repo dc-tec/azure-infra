@@ -1,0 +1,3 @@
+groups:
+  - name: grp-argocd-admin
+    members: ["roel@decort.tech"]
