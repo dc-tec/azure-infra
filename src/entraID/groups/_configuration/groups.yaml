@@ -1,3 +1,5 @@
 groups:
   - name: grp-argocd-admin
     members: ["roel@decort.tech"]
+  - name: sg-dct-admin
+    members: ["azureroel@decort.tech", "roel@decort.tech"]

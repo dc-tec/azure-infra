@@ -11,3 +11,11 @@ applications:
         description: Allow ArgoCD Web Access
         allowed_member_types: [User]
         reference: Users.All
+
+  - name: app-terraform
+    identifier_uris: api://terraform
+    homepage_url: ""
+    web_redirect_uris: []
+    public_client_redirect_uris: []
+    group_membership_claims: ""
+    access_group: ""
