@@ -33,11 +33,12 @@ variable "name" {
 variable "access_policies" {
   description = "A list of maps defining the access policies for the Key Vault."
   type = list(object({
-    application_name    = string
-    access_group        = string
-    secret_permissions  = list(string)
-    key_permissions     = list(string)
-    storage_permissions = list(string)
+    application_name        = string
+    access_group            = string
+    secret_permissions      = list(string)
+    key_permissions         = list(string)
+    certificate_permissions = list(string)
+    storage_permissions     = list(string)
   }))
 }
 
