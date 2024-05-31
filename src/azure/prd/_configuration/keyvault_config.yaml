@@ -1,11 +1,11 @@
 keyvaults:
   - name: lab-infra
     access_policies:
-      application_names: []
-      access_groups: [sg-dct-admin]
-      secret_permissions: ["Get", "Set", "List", "Delete"]
-      key_permissions: []
-      storage_permissions: []
-      certificate_permissions: []
+      - access_group: sg-dct-admin
+        application_name: null
+        secret_permissions: ["Get", "Set", "List", "Delete"]
+        key_permissions: []
+        storage_permissions: []
+        certificate_permissions: []
     allowed_ips: ["185.222.103.33", "217.62.17.140"]
     virtual_network_subnets: []

@@ -6,7 +6,6 @@ variable "environment" {
     condition     = can(regex("^(prd|dev|tst)$", var.environment))
     error_message = "Environment must be one of prd, dev or tst"
   }
-
 }
 
 variable "location" {
@@ -20,6 +19,12 @@ variable "location" {
   }
 }
 
+variable "resource_group" {
+  description = "The name of the Resource Group in which the resources should exist."
+  type        = string
+}
+
+
 variable "name" {
   description = "The name of the Key Vault."
   type        = string
@@ -27,11 +32,13 @@ variable "name" {
 
 variable "access_policies" {
   description = "A list of maps defining the access policies for the Key Vault."
-  type = object({
+  type = list(object({
+    application_name    = string
+    access_group        = string
     secret_permissions  = list(string)
     key_permissions     = list(string)
     storage_permissions = list(string)
-  })
+  }))
 }
 
 variable "allowed_ips" {
@@ -43,14 +50,3 @@ variable "virtual_network_subnets" {
   description = "A list of Subnet IDs that are allowed to access the Key Vault."
   type        = list(string)
 }
-
-variable "application_names" {
-  description = "The name of the Azure AD Application to use for the Key Vault."
-  type        = list(string)
-}
-
-variable "access_groups" {
-  description = "The name of the Azure AD Group to use for the Key Vault."
-  type        = list(string)
-}
-

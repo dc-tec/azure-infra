@@ -1,18 +1,27 @@
 data "azurerm_client_config" "current" {}
 
 data "azurerm_resource_group" "main" {
-  name = "rg-dct-${var.environment}-${var.location}-001"
+  name = var.resource_group
 }
 
 data "azuread_group" "main" {
-  for_each = toset(var.access_groups)
+  for_each = can({
+    for group in var.access_policies : group.access_group => group
+    }) ? {
+    for group in var.access_policies : group.access_group => group
+  } : {}
 
-  display_name = each.value
+  display_name = each.key
 }
 
 data "azuread_application" "main" {
-  for_each     = can(var.application_names) ? toset(var.application_names) : toset([])
-  display_name = each.value
+  for_each = can({
+    for application in var.access_policies : application.application_name => application
+    }) ? {
+    for application in var.access_policies : application.application_name => application
+  } : {}
+
+  display_name = each.key
 }
 
 resource "azurerm_key_vault" "main" {
@@ -29,7 +38,7 @@ resource "azurerm_key_vault" "main" {
     content {
       tenant_id      = data.azurerm_client_config.current.tenant_id
       object_id      = data.azuread_group.main[access_policy.value.access_group].object_id
-      application_id = can(data.azuread_application.main[access_policy.value.application].application_id) ? data.azuread_application.main[access_policy.value.application].application_id : null
+      application_id = can(data.azuread_application.main[access_policy.value.application_name].application_id) ? data.azuread_application.main[access_policy.value.application_name].application_id : null
 
       certificate_permissions = can(access_policy.value.certificate_permissions) ? access_policy.value.certificate_permissions : []
       key_permissions         = can(access_policy.value.key_permissions) ? access_policy.value.key_permissions : []

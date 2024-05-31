@@ -6,7 +6,7 @@ terraform {
     }
   }
 
-  required_version = "1.6.4"
+  required_version = "1.8.3"
 
   backend "azurerm" {
     resource_group_name  = "rg-terraform-prod-westeu-001"
@@ -29,10 +29,9 @@ module "key_vault" {
 
   environment             = "prd"
   location                = var.location
+  resource_group          = azurerm_resource_group.main.name
   name                    = "kv-${each.value[0].name}-prd-${var.location}"
   access_policies         = each.value[0].access_policies
   allowed_ips             = each.value[0].allowed_ips
   virtual_network_subnets = each.value[0].virtual_network_subnets
-  application_names       = each.value[0].application_names
-  access_groups           = each.value[0].access_groups
 }
