@@ -25,12 +25,12 @@ data "azuread_application" "main" {
 }
 
 resource "azurerm_key_vault" "main" {
-  name                = var.name
-  location            = data.azurerm_resource_group.main.location
-  resource_group_name = data.azurerm_resource_group.main.name
-  tenant_id           = data.azurerm_client_config.current.tenant_id
-  sku_name            = "standard"
-
+  name                      = var.name
+  location                  = data.azurerm_resource_group.main.location
+  resource_group_name       = data.azurerm_resource_group.main.name
+  tenant_id                 = data.azurerm_client_config.current.tenant_id
+  sku_name                  = "standard"
+  enable_rbac_authorization = true
 
   dynamic "access_policy" {
     for_each = var.access_policies
