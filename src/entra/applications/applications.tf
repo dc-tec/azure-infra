@@ -8,30 +8,42 @@ resource "azuread_application" "main" {
   sign_in_audience        = "AzureADMyOrg"
   group_membership_claims = [each.value[0].group_membership_claims]
 
-  app_role {
-    allowed_member_types = [for allowed_member_type in each.value[0].app_roles[0].allowed_member_types : allowed_member_type]
-    display_name         = each.value[0].app_roles[0].name
-    description          = each.value[0].app_roles[0].description
-    id                   = random_uuid.random[each.key].result
-    value                = each.value[0].app_roles[0].reference
+  dynamic "app_role" {
+    for_each = each.value[0].app_roles
+    content {
+      allowed_member_types = [for member_type in app_role.value.allowed_member_types : member_type]
+      display_name         = app_role.value.name
+      description          = app_role.value.description
+      id                   = random_uuid.random[each.key].result
+      value                = app_role.value.reference
+    }
   }
 
   required_resource_access {
     resource_app_id = "00000003-0000-0000-c000-000000000000" # Microsoft Graph
 
-    resource_access {
-      id   = "df021288-bdef-4463-88db-98f22de89214" # User.Read.All
-      type = "Role"
+    dynamic "resource_access" {
+      for_each = each.value[0].resource_access
+      content {
+        id   = resource_access.value.id
+        type = resource_access.value.type
+      }
     }
   }
 
-  public_client {
-    redirect_uris = [for redirect_uri in each.value[0].public_client_redirect_uris : redirect_uri]
+  dynamic "public_client" {
+    for_each = try(length(each.value[0].public_client.redirect_uris), 0) > 0 ? [for public_client in each.value[0].public_client.redirect_uris : public_client] : []
+    content {
+      redirect_uris = [public_client.value]
+    }
   }
 
-  web {
-    homepage_url  = each.value[0].homepage_url
-    redirect_uris = [for redirect_uri in each.value[0].web_redirect_uris : redirect_uri]
+  dynamic "web" {
+    for_each = try(length(each.value[0].web.redirect_uris), 0) > 0 ? [for web in each.value[0].web.redirect_uris : web] : []
+    content {
+      homepage_url  = each.value[0].web.homepage_url
+      redirect_uris = [web.value]
+    }
   }
 
   feature_tags {
