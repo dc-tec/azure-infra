@@ -1,11 +1,16 @@
 applications:
   - name: app-argocd
     identifier_uris: api://argocd
-    homepage_url: https://argocd.decort.tech
-    web_redirect_uris: [https://argocd.decort.tech/auth/callback]
-    public_client_redirect_uris: [http://localhost:8085/auth/callback]
+    web:
+      homepage_url: https://argocd.decort.tech
+      redirect_uris: [https://argocd.decort.tech/auth/callback]
+    public_client:
+      redirect_uris: [http://localhost:8085/auth/callback]
     group_membership_claims: ApplicationGroup
     access_group: grp-argocd-admin
+    resource_access:
+      - id: df021288-bdef-4463-88db-98f22de89214
+        type: Role
     app_roles:
       - name: argocd-access
         description: Allow ArgoCD Web Access
@@ -14,8 +19,18 @@ applications:
 
   - name: app-terraform
     identifier_uris: api://terraform
-    homepage_url: ""
-    web_redirect_uris: []
-    public_client_redirect_uris: []
-    group_membership_claims: ""
-    access_group: ""
+    web:
+      homepage_url: null
+      redirect_uris: []
+    public_client:
+      redirect_uris: []
+    group_membership_claims: ApplicationGroup
+    access_group: sg-dct-admin
+    resource_access:
+      - id: ba92f5b4-2d11-453d-a403-e96b0029c9fe
+        type: Role
+    app_roles:
+      - name: terraform-backend
+        description: Allow Terraform Backend Access
+        allowed_member_types: [Application]
+        reference: Storage.All
