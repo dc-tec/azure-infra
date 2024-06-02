@@ -9,7 +9,7 @@ applications:
     group_membership_claims: ApplicationGroup
     access_group: grp-argocd-admin
     resource_access:
-      - id: df021288-bdef-4463-88db-98f22de89214
+      - id: df021288-bdef-4463-88db-98f22de89214 # Users.ALl
         type: Role
     app_roles:
       - name: argocd-access
@@ -27,10 +27,28 @@ applications:
     group_membership_claims: ApplicationGroup
     access_group: sg-dct-admin
     resource_access:
-      - id: ba92f5b4-2d11-453d-a403-e96b0029c9fe
+      - id: ba92f5b4-2d11-453d-a403-e96b0029c9fe # Storage Blob Data Contributor
         type: Role
     app_roles:
       - name: terraform-backend
         description: Allow Terraform Backend Access
         allowed_member_types: [Application]
         reference: Storage.All
+
+  - name: app-external-secrets
+    identifier_uris: api://external-secrets
+    web:
+      homepage_url: null
+      redirect_uris: []
+    public_client:
+      redirect_uris: []
+    group_membership_claims: ApplicationGroup
+    access_group: sg-dct-admin
+    resource_access:
+      - id: f25e0fa2-a7c8-4377-a976-54943a77a395 # Key Vault Contributor
+        type: Role
+    app_roles:
+      - name: external-secrets-kv-access
+        description: Allow External Secrets to Key Vault
+        allowed_member_types: [Application]
+        reference: KeyVault.LabInfra.All
