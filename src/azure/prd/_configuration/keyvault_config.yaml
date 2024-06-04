@@ -5,7 +5,7 @@ keyvaults:
         groups: [sg-dct-admin]
         applications: []
       - role_name: Key Vault Administrator
-        groups: []
+        groups: [sg-dct-admin]
         applications: [app-external-secrets]
     allowed_ips: ["185.222.103.33", "217.62.17.140"]
     virtual_network_subnets: []
