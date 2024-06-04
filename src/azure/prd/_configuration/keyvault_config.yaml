@@ -1,22 +1,11 @@
 keyvaults:
   - name: lab-infra
     access_policies:
-      - access_group: sg-dct-admin
-        application_name: null
-        secret_permissions: ["Get", "Set", "List", "Delete"]
-        key_permissions:
-          [
-            "Create",
-            "Decrypt",
-            "Delete",
-            "Encrypt",
-            "Get",
-            "Import",
-            "List",
-            "Update",
-          ]
-        storage_permissions: []
-        certificate_permissions:
-          ["Create", "Delete", "Get", "Import", "List", "Update"]
+      - role_name: Key Vault Contributor
+        groups: [sg-dct-admin]
+        applications: []
+      - role_name: Key Vault Administrator
+        groups: [sg-dct-admin]
+        applications: [app-external-secrets]
     allowed_ips: ["185.222.103.33", "217.62.17.140"]
     virtual_network_subnets: []
