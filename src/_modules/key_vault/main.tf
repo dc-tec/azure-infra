@@ -1,9 +1,3 @@
-locals {
-  role_assignments = [for role in var.access_policies : role]
-  groups           = { for group in local.role_assignments[0].groups : group => group }
-  applications     = { for application in local.role_assignments[0].applications : application => application }
-}
-
 data "azurerm_subscription" "primary" {}
 
 data "azurerm_client_config" "current" {}
@@ -13,12 +7,13 @@ data "azurerm_resource_group" "main" {
 }
 
 data "azuread_group" "main" {
-  for_each     = local.groups
+  for_each = { for role in local.role_assignments : role.principal => role if role.type == "group" }
+
   display_name = each.key
 }
 
 data "azuread_application" "main" {
-  for_each = local.applications
+  for_each = { for role in local.role_assignments : role.principal => role if role.type == "application" }
 
   display_name = each.key
 }
@@ -40,9 +35,11 @@ resource "azurerm_key_vault" "main" {
 }
 
 resource "azurerm_role_assignment" "main" {
-  for_each = { for role_assignment in var.access_policies : role_assignment.role_name => role_assignment }
+  for_each = { for role in local.role_assignments : "${role.role_name}-${role.principal}" => role }
 
   scope                = data.azurerm_subscription.primary.id
-  role_definition_name = each.key
-  principal_id         = can(data.azuread_group.main[each.value.group].object_id) ? data.azuread_group.main[each.value.group].object_id : data.azuread_application.main[each.value.application].object_id
+  role_definition_name = each.value.role_name
+  principal_id         = each.value.type == "group" ? data.azuread_group.main[each.value.principal].object_id : data.azuread_application.main[each.value.principal].object_id
 }
+
+
