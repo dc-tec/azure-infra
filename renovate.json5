@@ -1,0 +1,13 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "platform": "github",
+  "semanticCommits": true,
+  "labels": ["renovate"],
+  "repositories": ["dc-tec/azure-infra"],
+  "terraform": {
+    "fileMatch": ["\\.tf$"]
+  },
+  "extends": [
+    "config:recommended",
+  ],
+}
