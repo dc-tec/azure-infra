@@ -6,7 +6,7 @@ terraform {
     }
   }
 
-  required_version = "1.8.5"
+  required_version = "1.9.5"
 
   backend "azurerm" {
     resource_group_name  = "rg-terraform-prod-westeu-001"
