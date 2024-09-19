@@ -5,7 +5,7 @@ param tagValues object
 
 targetScope = 'subscription'
 
-resource resourceGroup 'Microsoft.Resources/resourceGroups@2024-03-01' = {
+resource resourceGroup 'Microsoft.Resources/resourceGroups@2024-07-01' = {
   name: resourceGroupName
   location: location
   tags: tagValues
