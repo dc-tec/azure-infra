@@ -52,3 +52,29 @@ applications:
         description: Allow External Secrets to Key Vault
         allowed_member_types: [Application]
         reference: KeyVault.LabInfra.All
+
+  - name: app-vault-unseal
+    identifier_uris: api://vault
+    web:
+      homepage_url: null
+      redirect_uris: []
+    public_client:
+      redirect_uris: []
+    group_membership_claims: ApplicationGroup
+    access_group: sg-dct-admin
+    resource_access:
+      - id: df021288-bdef-4463-88db-98f22de89214 # Users.All
+        type: Role
+    app_roles:
+      - name: vault-user-read
+        description: Allow Vault to Read User info
+        allowed_member_types: [Application]
+        reference: User.Read
+      - name: vault-application-rw
+        description: Allow Vault to Read and Write the Application
+        reference: Application.ReadWrite.All
+        allowed_member_types: [Application]
+      - name: vault-directory-rw
+        description: Allow Vault to Read and Write the Directory
+        allowed_member_types: [Application]
+        reference: Directory.ReadWrite.All
