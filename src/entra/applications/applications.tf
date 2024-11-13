@@ -14,8 +14,9 @@ resource "azuread_application" "main" {
       allowed_member_types = [for member_type in app_role.value.allowed_member_types : member_type]
       display_name         = app_role.value.name
       description          = app_role.value.description
-      id                   = random_uuid.random[each.key].result
-      value                = app_role.value.reference
+      id                   = random_uuid.app_role_ids["${each.key}-${app_role.value.name}"].result
+
+      value = app_role.value.reference
     }
   }
 
