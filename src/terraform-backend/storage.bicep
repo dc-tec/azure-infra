@@ -34,7 +34,7 @@ resource blobServices 'Microsoft.Storage/storageAccounts/blobServices@2023-05-01
   parent: storageAccount
 }
 
-resource container 'Microsoft.Storage/storageAccounts/blobServices/containers@2023-05-01' = {
+resource container 'Microsoft.Storage/storageAccounts/blobServices/containers@2025-01-01' = {
   name: 'tfstate'
   parent: blobServices
   properties: {
